@@ -118,7 +118,9 @@ const LeaveConfirmModal = ({
     <div className="bg-gray-800 rounded-xl border border-gray-700 p-6 max-w-sm w-full text-center shadow-2xl">
       <h3 className="text-xl font-bold text-white mb-2">Abort Protocol?</h3>
       <p className="text-gray-400 mb-6 text-sm">
-        {inGame
+        {isHost
+          ? "WARNING: As Admin, terminating connection will shut down the server for all agents."
+          : inGame
           ? "Leaving now will compromise the mission for everyone!"
           : "Disconnecting from the secure server."}
       </p>
@@ -141,7 +143,7 @@ const LeaveConfirmModal = ({
           onClick={onConfirmLeave}
           className="bg-red-600 hover:bg-red-500 text-white py-3 rounded font-bold transition-colors flex items-center justify-center gap-2"
         >
-          <LogOut size={18} /> Disconnect
+          <LogOut size={18} /> {isHost ? "Shut Down Server" : "Disconnect"}
         </button>
       </div>
     </div>
@@ -328,6 +330,15 @@ export default function ProtocolGame() {
     return () => unsubscribe();
   }, []);
 
+  // --- Session Restore ---
+  useEffect(() => {
+    const savedRoomId = localStorage.getItem("protocol_roomId");
+    if (savedRoomId) {
+      setRoomId(savedRoomId);
+      // We rely on the Room Sync useEffect to handle the view switching
+    }
+  }, []);
+
   useEffect(() => {
     if (!roomId || !user) return;
     const unsub = onSnapshot(
@@ -339,6 +350,7 @@ export default function ProtocolGame() {
           if (!data.players.some((p) => p.id === user.uid)) {
             setRoomId("");
             setView("menu");
+            localStorage.removeItem("protocol_roomId"); // Clear Session
             setError("Connection Terminated by Host.");
             return;
           }
@@ -359,6 +371,7 @@ export default function ProtocolGame() {
           // If document doesn't exist, room was deleted (Host left)
           setRoomId("");
           setView("menu");
+          localStorage.removeItem("protocol_roomId"); // Clear Session
           setError("Room Closed (Host Disconnected).");
         }
       }
@@ -412,6 +425,7 @@ export default function ProtocolGame() {
         doc(db, "artifacts", APP_ID, "public", "data", "rooms", newId),
         initialData
       );
+      localStorage.setItem("protocol_roomId", newId); // Save Session
       setRoomId(newId);
       setView("lobby");
     } catch (e) {
@@ -452,6 +466,7 @@ export default function ProtocolGame() {
           }),
         });
       }
+      localStorage.setItem("protocol_roomId", roomCodeInput); // Save Session
       setRoomId(roomCodeInput);
     } catch (e) {
       setError(e.message);
@@ -476,6 +491,7 @@ export default function ProtocolGame() {
     } catch (e) {
       console.error(e);
     }
+    localStorage.removeItem("protocol_roomId"); // Clear Session
     setRoomId("");
     setView("menu");
     setShowLeaveConfirm(false);
