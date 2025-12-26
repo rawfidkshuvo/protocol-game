@@ -882,7 +882,7 @@ export default function ProtocolGame() {
           <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-400 to-blue-600 font-serif tracking-widest drop-shadow-md">
             PROTOCOL
           </h1>
-          <p className="text-cyan-400/60 tracking-[0.3em] uppercase mt-2">
+          <p className="text-white-400/60 tracking-[0.3em] uppercase mt-2">
             Trust No One
           </p>
         </div>
@@ -931,6 +931,20 @@ export default function ProtocolGame() {
           >
             <BookOpen size={16} /> Field Manual
           </button>
+        </div>
+        <div className="absolute bottom-4 text-slate-600 text-xs text-center">
+          Inspired by The Resistance: Avalon. A tribute game.
+          <br />
+          Developed by <strong>RAWFID K SHUVO</strong>. Visit{" "}
+          <a
+            href="https://rawfidkshuvo.github.io/gamehub/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-500 underline hover:text-cyan-600"
+          >
+            GAMEHUB
+          </a>{" "}
+          for more games.
         </div>
       </div>
     );
