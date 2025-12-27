@@ -526,17 +526,31 @@ export default function ProtocolGame() {
 
   const startGame = async () => {
     if (gameState.players.length < 5) return setError("Need 5+ Agents.");
-    // Assign Roles
-    const shuffled = [...gameState.players].sort(() => Math.random() - 0.5);
-    const playerCount = shuffled.length;
+
+    // 1. Shuffle the players to determine "Seating Order"
+    const shuffledPlayers = [...gameState.players].sort(
+      () => Math.random() - 0.5
+    );
+    const playerCount = shuffledPlayers.length;
     const moleCount = SPY_COUNTS[playerCount] || 2;
 
-    const playersWithRoles = shuffled.map((p, i) => ({
+    // 2. Create a pool of roles (e.g. ["MOLE", "MOLE", "OPERATIVE", "OPERATIVE"...])
+    const rolePool = Array(playerCount).fill("OPERATIVE");
+    for (let i = 0; i < moleCount; i++) {
+      rolePool[i] = "MOLE";
+    }
+
+    // 3. Shuffle the ROLES separately
+    const shuffledRoles = rolePool.sort(() => Math.random() - 0.5);
+
+    // 4. Assign the shuffled roles to the shuffled players
+    const playersWithRoles = shuffledPlayers.map((p, i) => ({
       ...p,
-      role: i < moleCount ? "MOLE" : "OPERATIVE",
-      isLeader: i === 0,
-      ready: false, // Reset ready status on game start
+      role: shuffledRoles[i], // Assign random role
+      isLeader: i === 0, // First player is leader, but their role is now random
+      ready: false,
     }));
+
     await updateDoc(
       doc(db, "artifacts", APP_ID, "public", "data", "rooms", roomId),
       {
