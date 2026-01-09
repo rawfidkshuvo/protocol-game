@@ -107,6 +107,15 @@ const ProtocolLogo = () => (
   </div>
 );
 
+const ProtocolLogoBig = () => (
+  <div className="flex items-center justify-center gap-1 opacity-40 mt-auto pb-2 pt-2 relative z-10">
+    <Terminal size={22} className="text-cyan-500" />
+    <span className="text-[20px] font-black tracking-widest text-cyan-500 uppercase">
+      PROTOCOL
+    </span>
+  </div>
+);
+
 const LeaveConfirmModal = ({
   onConfirmLeave,
   onConfirmLobby,
@@ -969,6 +978,7 @@ export default function ProtocolGame() {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-6 relative">
         <FloatingBackground />
+        <ProtocolLogoBig />
         {showLeaveConfirm && (
           <LeaveConfirmModal
             onConfirmLeave={leaveRoom}
@@ -981,7 +991,8 @@ export default function ProtocolGame() {
         <div className="z-10 w-full max-w-lg bg-gray-900/90 backdrop-blur p-8 rounded-2xl border border-cyan-900/50 shadow-2xl mb-4">
           <div className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
             <h2 className="text-2xl font-serif text-cyan-400">
-              Net: <span className="text-white font-mono">{roomId}</span>
+              Sabotage Code:{" "}
+              <span className="text-white font-mono">{roomId}</span>
             </h2>
             <button
               onClick={() => setShowLeaveConfirm(true)}
@@ -1113,7 +1124,7 @@ export default function ProtocolGame() {
               PROTOCOL
             </span>
             <span className="text-xs text-gray-500 bg-black/50 px-2 py-1 rounded">
-              Net {gameState.roomId}
+              Sabotage Hall
             </span>
           </div>
           <div className="flex gap-2">
