@@ -310,7 +310,9 @@ const FeedbackOverlay = ({ type, message, subtext, icon: Icon }) => (
 export default function ProtocolGame() {
   const [user, setUser] = useState(null);
   const [view, setView] = useState("menu");
-  const [playerName, setPlayerName] = useState("");
+  const [playerName, setPlayerName] = useState(
+    () => localStorage.getItem("protocol_playerName") || ""
+  );
   const [roomId, setRoomId] = useState("");
   const [roomCodeInput, setRoomCodeInput] = useState("");
   const [gameState, setGameState] = useState(null);
@@ -338,6 +340,10 @@ export default function ProtocolGame() {
     const unsubscribe = onAuthStateChanged(auth, setUser);
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (playerName) localStorage.setItem("protocol_playerName", playerName);
+  }, [playerName]);
 
   // --- Session Restore ---
   useEffect(() => {
