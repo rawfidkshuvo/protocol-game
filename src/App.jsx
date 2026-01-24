@@ -37,7 +37,6 @@ import {
   BookOpen,
   History,
   X,
-  Crown,
   User,
   RotateCcw,
   Home,
