@@ -19,6 +19,9 @@ import {
 } from "firebase/firestore";
 import {
   Shield,
+  Crown,
+  Crosshair,
+  Sword,
   Zap,
   Users,
   Vote,
@@ -84,17 +87,68 @@ const SPY_COUNTS = {
 
 // --- Sub-Components ---
 
-const FloatingBackground = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-950 to-black" />
-    <div className="absolute top-0 left-0 w-full h-full bg-cyan-900/10 mix-blend-overlay" />
-    <div
-      className="absolute inset-0 opacity-10"
-      style={{
-        backgroundImage:
-          'url("https://www.transparenttextures.com/patterns/black-scales.png")',
-      }}
-    ></div>
+const DICE_ICONS = {
+  1: Crown,
+  2: Shield,
+  3: Crosshair,
+  4: Sword,
+  5: Eye,
+  6: Zap,
+  7: Vote,
+  8: Lock,
+  9: Unlock,
+  10: Server,
+};
+
+const FloatingBackground = ({ isShaking }) => (
+  <div
+    className={`absolute inset-0 overflow-hidden pointer-events-none z-0 ${
+      isShaking ? "animate-shake bg-red-900/20" : ""
+    }`}
+  >
+    {/* Background Gradient */}
+    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-gray-950 to-black" />
+    
+    <div className="absolute top-0 left-0 w-full h-full opacity-10">
+      {[...Array(20)].map((_, i) => {
+        // --- CHANGE START ---
+        const diceKeys = Object.keys(DICE_ICONS);
+        // We cycle through keys 1-6 based on the index
+        const key = diceKeys[i % diceKeys.length]; 
+        // Direct assignment because DICE_ICONS values are the components themselves
+        const Icon = DICE_ICONS[key]; 
+        // --- CHANGE END ---
+
+        return (
+          <div
+            key={i}
+            className="absolute animate-float text-white/20"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDuration: `${10 + Math.random() * 20}s`,
+              transform: `scale(${0.5 + Math.random()})`,
+            }}
+          >
+            <Icon size={32} />
+          </div>
+        );
+      })}
+    </div>
+    <style>{`
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(10deg); }
+      }
+      .animate-float { animation: float infinite ease-in-out; }
+      
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      .animate-shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+    `}</style>
   </div>
 );
 
@@ -911,7 +965,7 @@ export default function ProtocolGame() {
         <div className="z-10 text-center mb-10 animate-in fade-in zoom-in duration-700">
           <Server
             size={64}
-            className="text-cyan-500 mx-auto mb-4 animate-pulse drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+            className="text-cyan-500 mx-auto mb-4 animate-bounce drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]"
           />
           <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-400 to-blue-600 font-serif tracking-widest drop-shadow-md">
             PROTOCOL
