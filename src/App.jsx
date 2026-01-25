@@ -106,7 +106,7 @@ const FloatingBackground = ({ isShaking }) => (
     }`}
   >
     {/* Background Gradient */}
-    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-gray-950 to-black" />
+    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-slate-900/40 via-gray-950 to-black" />
     
     <div className="absolute top-0 left-0 w-full h-full opacity-10">
       {[...Array(20)].map((_, i) => {
@@ -121,7 +121,7 @@ const FloatingBackground = ({ isShaking }) => (
         return (
           <div
             key={i}
-            className="absolute animate-float text-white/20"
+            className="absolute animate-float text-white/60"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -176,7 +176,7 @@ const LeaveConfirmModal = ({
   isHost,
   inGame,
 }) => (
-  <div className="fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-4 animate-in fade-in">
+  <div className="fixed inset-0 bg-black/90 z-200 flex items-center justify-center p-4 animate-in fade-in">
     <div className="bg-gray-800 rounded-xl border border-gray-700 p-6 max-w-sm w-full text-center shadow-2xl">
       <h3 className="text-xl font-bold text-white mb-2">Abort Protocol?</h3>
       <p className="text-gray-400 mb-6 text-sm">
@@ -213,7 +213,7 @@ const LeaveConfirmModal = ({
 );
 
 const LogViewer = ({ logs, onClose }) => (
-  <div className="fixed top-16 right-4 w-64 max-h-60 bg-gray-900/95 border border-gray-700 rounded-xl z-[155] overflow-y-auto p-2 shadow-2xl">
+  <div className="fixed top-16 right-4 w-64 max-h-60 bg-gray-900/95 border border-gray-700 rounded-xl z-155 overflow-y-auto p-2 shadow-2xl">
     <div className="bg-gray-800 w-full md:max-w-md h-full md:h-[70vh] rounded-none md:rounded-xl flex flex-col border-none md:border border-gray-700 shadow-2xl">
       <div className="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-800">
         <h3 className="text-white font-bold text-lg flex items-center gap-2">
@@ -258,7 +258,7 @@ const LogViewer = ({ logs, onClose }) => (
 );
 
 const RulesModal = ({ onClose }) => (
-  <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-0 md:p-4 animate-in fade-in">
+  <div className="fixed inset-0 bg-black/95 z-100 flex items-center justify-center p-0 md:p-4 animate-in fade-in">
     <div className="bg-gray-900 md:rounded-2xl w-full max-w-4xl h-full md:h-auto md:max-h-[90vh] overflow-hidden border-none md:border border-cyan-500/30 flex flex-col">
       <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-950">
         <h2 className="text-2xl font-bold text-white flex items-center gap-2 tracking-wider">
@@ -329,7 +329,7 @@ const RulesModal = ({ onClose }) => (
 );
 
 const FeedbackOverlay = ({ type, message, subtext, icon: Icon }) => (
-  <div className="fixed inset-0 z-[160] flex items-center justify-center pointer-events-none">
+  <div className="fixed inset-0 z-160 flex items-center justify-center pointer-events-none">
     <div
       className={`
       flex flex-col items-center justify-center p-8 md:p-12 rounded-3xl border-4 shadow-[0_0_50px_rgba(0,0,0,0.8)] 
@@ -966,7 +966,7 @@ export default function ProtocolGame() {
             size={64}
             className="text-cyan-500 mx-auto mb-4 animate-bounce drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]"
           />
-          <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-400 to-blue-600 font-serif tracking-widest drop-shadow-md">
+          <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-linear-to-b from-cyan-400 to-blue-600 font-serif tracking-widest drop-shadow-md">
             PROTOCOL
           </h1>
           <p className="text-white-400/60 tracking-[0.3em] uppercase mt-2">
@@ -991,7 +991,7 @@ export default function ProtocolGame() {
           <button
             onClick={createRoom}
             disabled={loading}
-            className="w-full bg-gradient-to-r from-cyan-700 to-blue-600 hover:from-cyan-600 hover:to-blue-500 p-4 rounded font-bold mb-4 flex items-center justify-center gap-2 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all"
+            className="w-full bg-linear-to-r from-cyan-700 to-blue-600 hover:from-cyan-600 hover:to-blue-500 p-4 rounded font-bold mb-4 flex items-center justify-center gap-2 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all"
           >
             <Zap size={20} /> Initialize Protocol
           </button>
@@ -1549,14 +1549,14 @@ export default function ProtocolGame() {
                         <div className="flex gap-4 w-full">
                           <button
                             onClick={() => submitMissionMove("SUCCESS")}
-                            className="flex-1 bg-gradient-to-br from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-cyan-900/20"
+                            className="flex-1 bg-linear-to-br from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-cyan-900/20"
                           >
                             SUCCESS
                           </button>
                           {myRole === "MOLE" && (
                             <button
                               onClick={() => submitMissionMove("SABOTAGE")}
-                              className="flex-1 bg-gradient-to-br from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-red-900/20"
+                              className="flex-1 bg-linear-to-br from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-red-900/20"
                             >
                               SABOTAGE
                             </button>
